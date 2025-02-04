@@ -15,6 +15,7 @@ variable "ami" {
   default = "ami-04feae287ec8b0244"
   
 }
+
 variable "vm_name" {
   default = vm-[CHANGE TO YOUR NAME]
 }

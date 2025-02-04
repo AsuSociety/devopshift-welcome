@@ -1,0 +1,3 @@
+GITBRANCH=workshop/terraform
+GITURL=github.com/AsuSociety/devopshift-welcome.git
+GITUSERNAME=AsuSociety
