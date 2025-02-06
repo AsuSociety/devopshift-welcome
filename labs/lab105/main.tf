@@ -4,6 +4,7 @@ module "ec2_instance" {
   instance_type       = "t2.micro"
   region              = "us-east-1"
   security_group_name = "yaniv-sg"
+  machine_name        = "OmerAsus-VM"
 }
 
 output "vm_public_ip" {

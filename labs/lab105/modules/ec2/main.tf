@@ -20,6 +20,10 @@ variable "security_group_name" {
   description = "Name of the security group"
   type        = string
 }
+variable "machine_name" {
+  description = "Name of the machine"
+  type        = string
+}
 
 resource "aws_security_group" "sg" {
   name = var.security_group_name
@@ -46,7 +50,7 @@ resource "aws_instance" "vm" {
   vpc_security_group_ids = [aws_security_group.sg.id]
 
   tags = {
-    Name = "yaniv-vm"
+    Name = var.machine_name
   }
 }
 
@@ -63,4 +67,21 @@ output "ami_used" {
 output "aws_region" {
   value       = var.region
   description = "AWS region in use"
+}
+
+
+resource "null_resource" "check_public_ip" {
+  provisioner "local-exec" {
+    command = <<EOT
+     if [ -z "${aws_instance.vm.public_ip}" ]; then
+       echo "ERROR: Public IP address was not assigned." >&2
+       exit 1
+       else
+       echo "We got the IP! ${aws_instance.vm.public_ip}"
+     fi
+   EOT
+  }
+
+
+  depends_on = [aws_instance.vm]
 }
