@@ -5,6 +5,7 @@ module "ec2_instance" {
   region              = "us-east-1"
   security_group_name = "yaniv-sg"
   machine_name        = "OmerAsus-VM"
+  openports           = [22, 80, 433]
 }
 
 output "vm_public_ip" {
@@ -17,4 +18,8 @@ output "ami_used" {
 
 output "aws_region" {
   value = module.ec2_instance.aws_region
+}
+
+output "aws_openports" {
+  value = module.ec2_instance.aws_openports
 }
