@@ -26,6 +26,7 @@ variable "machine_name" {
 }
 
 variable "openports" {
+  type = list(number)
 }
 
 resource "aws_security_group" "sg" {
