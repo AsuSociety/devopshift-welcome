@@ -37,6 +37,8 @@ resource "aws_instance" "example" {
 
   depends_on = [aws_vpc.custom_vpc]
 
+  # Causes machine-related changes not to automatically drop it (e.g. change to sg)
+
   lifecycle {
     ignore_changes = [subnet_id]
   }
