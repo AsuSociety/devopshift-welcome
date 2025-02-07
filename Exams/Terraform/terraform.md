@@ -6,23 +6,31 @@
 
 #### What is Terraform and how does it differ from other IaC tools?
 
-**Answer:** Terraform is an open-source tool written by HashiCorp for provisioning, managing, and deploying infrastructure resources. It allows you to manage infrastructure across multiple cloud providers (AWS, Azure, GCP) with a single tool. Unlike other IaC tools, Terraform uses a declarative approach, where you define the desired end state of your infrastructure, and it automatically handles the process of reaching that state.
+<div dir="rtl"> 
+terraform הוא כלי קוד פתוח שנכתב על ידי HashiCorp לניהול, פרישה והשקת משאבי תשתית. הוא מאפשר לך לנהל תשתית על פני ספקי ענן שונים (AWS, Azure, GCP) באמצעות כלי אחד. בניגוד לכלים אחרים לניהול תשתית כקוד, terraform משתמש בגישה דקלרטיבית, שבה אתה מגדיר את מצב התשתית הרצוי, והוא מטפל אוטומטית בתהליך הגעת המערכת למצב זה.
+</div>
 
 #### Explain Terraform's declarative nature and state management.
 
-**Answer:** Terraform’s declarative nature means you define the desired end state of your infrastructure, and it manages the steps to reach that state. Its state management tracks the current setup in a state file, allowing Terraform to apply changes to match the desired configuration.
+<div dir="rtl"> 
+הגישה הדקלרטיבית של terraform אומרת שאתה מגדיר את מצב התשתית הרצוי, ו-terraform מנהל את השלבים כדי להגיע למצב הזה. ניהול המצב עוקב אחר ההגדרה הנוכחית בקובץ המצב, ומאפשר ל-terraform לבצע שינויים כדי להתאים את המערכת לקונפיגורציה הרצויה.
+</div>
 
 #### What is the purpose of the Terraform provider?
 
-**Answer:** A Terraform provider is responsible for managing the interactions between Terraform and cloud services or APIs. It allows Terraform to create, read, update, and delete resources from different platforms like AWS, Azure, or GCP.
+<div dir="rtl"> 
+ספק terraform אחראי לניהול האינטראקציות בין terraform לשירותי ענן או APIs. הוא מאפשר ל-terraform ליצור, לקרוא, לעדכן ולמחוק משאבים מפלטפורמות שונות כמו AWS, Azure או GCP.
+</div>
 
 #### How does Terraform handle dependency resolution?
 
-**Answer:** Terraform manages dependencies using implicit and explicit declarations. Implicit dependencies come from resource references, while explicit ones use the `depends_on` meta argument.
+<div dir="rtl"> 
+terraform מנהל תלויות באמצעות הצהרות משתמעות (implicit) ומפורשות (explicit) . תלויות משתמעות מגיעות על ידי הפניות למשאבים, בעוד שתלויות מפורשות נעשות באמצעות הארגומנט depends_on.
+</div>
 
 #### What are the key components of a Terraform configuration file?
 
-**Answer:** The key components of a Terraform configuration file are:
+The key components of a Terraform configuration file are:
 
 - **Providers** (cloud service integrations)
 - **Resources** (infrastructure elements)
@@ -36,19 +44,24 @@
 
 #### Explain the difference between `terraform refresh`, `terraform plan`, and `terraform apply`.
 
-**Answer:**
+<div dir="rtl">
 
-- `terraform refresh` updates the state file to match the actual infrastructure.
-- `terraform plan` shows the changes Terraform will make without applying them.
-- `terraform apply` executes the changes to match the desired configuration.
+- `terraform refresh` מעדכן את קובץ המצב כך שיתאם את התשתית האמיתית.
+
+- `terraform plan` מציג את השינויים ש-terraform יעשה מבלי לבצע אותם.
+- `terraform apply` מבצע את השינויים כדי להתאים את המערכת לקונפיגורציה הרצויה.
+</div>
 
 #### What is the difference between local and remote backends?
 
-**Answer:** A local backend stores the Terraform state file on the local machine, while a remote backend saves it on a remote service like AWS S3 or Terraform Cloud. Remote backends enable collaboration and state locking, preventing conflicts in team environments.
+<div dir="rtl"> 
+אחסון מקומי שומר את קובץ המצב של terraform על המחשב המקומי, בעוד שאחסון מרוחק שומר אותו בשירות מרוחק כמו AWS S3 או Terraform Cloud. אחסונים מרוחקים מאפשרים שיתוף פעולה ונעילת מצב, ומונעים קונפליקטים בסביבות עבודה צוותיות.</div>
 
 #### How can you prevent state corruption when multiple engineers work on the same infrastructure?
 
-**Answer:** Use a remote backend with state locking, like AWS S3 with DynamoDB or Terraform Cloud, to prevent conflicts. This ensures only one engineer can modify the state at a time, avoiding corruption.
+<div dir="rtl"> 
+אפשר להמנע על ידי שימוש באחסון מרוחק עם נעילת מצב, כמו AWS S3 עם DynamoDB או Terraform Cloud, כדי למנוע קונפליקטים. זה מבטיח שרק מהנדס אחד יוכל לשנות את המצב בו זמנית, ומונע מצב של corruption.
+</div>
 
 ---
 
@@ -56,11 +69,13 @@
 
 #### What are the benefits of using Terraform modules?
 
-**Answer:** Terraform modules make configurations reusable, organized, and easier to manage. They help reduce duplication, improve scalability, and simplify complex infrastructure deployments.
+<div dir="rtl"> 
+מודולים של terraform הופכים את הקונפיגורציות לשימוש חוזר, מאורגנות וקלות לניהול. הם עוזרים לצמצם שיכפול קוד, לשפר סקלביליות, ולפשט את פריסת התשתית המורכבת.
+</div>
 
 #### Explain how to pass variables to a Terraform module.
 
-**Answer:** Variables can be passed to a Terraform module using:
+Variables can be passed to a Terraform module using:
 
 - `variables.tf` files
 - Command-line flags (`-var`)
@@ -71,18 +86,22 @@ These methods allow dynamic configuration without modifying the module's code.
 
 #### What is the difference between `count` and `for_each`?
 
-**Answer:**
+<div dir="rtl">
 
-- `count` is used for creating multiple identical resources based on a number.
-- `for_each` is used for creating resources from a set, map, or list, allowing unique properties for each resource.
+- `count` משמש ליצירת משאבים זהים מרובים בהתבסס על מספר כלשהו.
+- `for_each` משמש ליצירת משאבים מ- array, map או list, ומאפשר לקבוע מאפיינים ייחודיים לכל משאב.
+</div>
 
 #### How do you source a module from a Git repository?
 
-**Answer:** You can source a Terraform module from a Git repository using the `source` argument in the module block, for example:
+<div dir="rtl"> 
+אתה יכול להוציא מודול של terraform מתוך מאגר Git באמצעות ארגומנט source כך, לדוגמה:
 
 ```hcl
 source = "git::https://github.com/AsuSociety/devopshift-welcome/tree/workshop/terraform/Exams"
 ```
+
+</div>
 
 ---
 
@@ -90,19 +109,21 @@ source = "git::https://github.com/AsuSociety/devopshift-welcome/tree/workshop/te
 
 #### How do you create an EC2 instance with Terraform?
 
-**Answer:** Define an `aws_instance` resource in the configuration file, specifying parameters like `ami`, `instance_type`, and `key_name`. Then, run `terraform apply` to create the instance.
+Define an `aws_instance` resource in the configuration file, specifying parameters like `ami`, `instance_type`, and `key_name`. Then, run `terraform apply` to create the instance.
 
 #### What are the required fields for defining a VPC in Terraform?
 
-**Answer:** To define a VPC in Terraform, you need to specify at least the `cidr_block`. Optional fields include `enable_dns_support`, `enable_dns_hostnames`, and tags for additional customization.
+To define a VPC in Terraform, you need to specify at least the `cidr_block`. Optional fields include `enable_dns_support`, `enable_dns_hostnames`, and tags for additional customization.
 
 #### Explain how Terraform manages IAM policies in AWS.
 
-**Answer:** AWS IAM policies in Terraform are defined in configuration files, ensuring security and organization. Terraform manages these policies as code, making access control repeatable and scalable.
+<div dir="rtl"> 
+terraform מגדיר את מדיניות IAM של AWS בקבצי קונפיגורציה, ומבטיח אבטחה וארגון. terraform מנהל את המדיניות כקוד, מה שהופך את בקרת הגישה לשחזורית ומדרגית.
+</div>
 
 #### How do you use Terraform to provision and attach an Elastic Load Balancer?
 
-**Answer:** Use the `aws_lb` resource to create an Elastic Load Balancer and the `aws_lb_target_group` to define where traffic is routed. Then, attach instances using `aws_lb_target_group_attachment` and configure listeners with `aws_lb_listener`.
+Use the `aws_lb` resource to create an Elastic Load Balancer and the `aws_lb_target_group` to define where traffic is routed. Then, attach instances using `aws_lb_target_group_attachment` and configure listeners with `aws_lb_listener`.
 
 ---
 
@@ -110,16 +131,31 @@ source = "git::https://github.com/AsuSociety/devopshift-welcome/tree/workshop/te
 
 #### What does the `terraform validate` command do?
 
-**Answer:** The `terraform validate` command checks the syntax and structure of configuration files, ensuring attributes and values are correctly used. It verifies the core Terraform syntax and validates provider configurations.
+<div dir="rtl"> 
+הפקודה terraform validate בודקת את הסינטקס והמבנה של קבצי הקונפיגורציה, ומוודאת שהתכנים והערכים מוגדרים כראוי. היא מאמתת את הסינטקס הבסיסי של terraform ומוודאת שההגדרות של הספקים נכונות.
+
+</div>
 
 #### How can you debug Terraform errors effectively?
 
-**Answer:** Enable detailed logs using `TF_LOG="DEBUG"` and check the Terraform state file for issues. Use `terraform plan` to preview changes and `terraform apply -auto-approve` carefully to test fixes.
+<div dir="rtl">
+
+בעזרת אפשור קבצי log על ידי הפקודה TF_LOG="DEBUG" ולאחר מכן בדיקת קובץ המצב של terraform למציאת בעיות. השתמש בפקודת terraform plan כדי להציג את השינויים ו-terraform apply -auto-approve לצורך בדיקת תיקונים.
+
+</div>
 
 #### What is Terraform’s `ignore_changes` lifecycle policy used for?
 
-**Answer:** The `ignore_changes` feature prevents updates to specific attributes that may change over time but shouldn’t affect the resource after creation. This helps maintain stability in dynamic environments.
+<div dir="rtl">
+
+תכונת `ignore_changes` מונעת עדכון של תכונות מסוימות שעשויות להשתנות עם הזמן אך לא אמורות להשפיע על המשאב לאחר יצירתו. זה עוזר לשמור על יציבות בסביבות דינמיות.
+
+</div>
 
 #### How do you import existing AWS infrastructure into Terraform?
 
-**Answer:** Use the `terraform import` command with the resource type and AWS resource ID to bring existing infrastructure into Terraform. Then, define the resource in your configuration to match the imported state.
+<div dir="rtl">
+
+השתמש בפקודת `terraform import` עם סוג המשאב וה-ID של המשאב ב-AWS כדי להכניס תשתית קיימת ל-terraform. לאחר מכן, הגדר את המשאב בקונפיגורציה כך שיתאים למצב המיובא.
+
+</div>

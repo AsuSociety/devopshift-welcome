@@ -45,42 +45,54 @@ A) AWS Cost Explorer
 
 # Section 2: Research-based AWS Questions (Using Google Only)
 
-**What are AWS Landing Zones, and how do they help with multi-account governance?**  
-A landing zone is a pre-configured, multi-account AWS setup that serves as a starting point for deploying workloads and apps.  
-It provides a foundation for managing accounts, security, network design, and logging.
+**What are AWS Landing Zones, and how do they help with multi-account governance?**
 
-**Explain how AWS WAF protects web applications from common attacks.**  
-AWS WAF protects web apps by monitoring HTTP/S requests to block attacks like SQL injection and XSS.  
-It uses features like Access Control Lists, Rules, and Rule Groups for comprehensive security.
+<div dir="rtl">אזור נחיתה (Landing Zone) הוא הגדרה מוקדמת של סביבת AWS מרובת חשבונות, המשמשת כנקודת התחלה לפריסת עומסי עבודה ואפליקציות.  
+הוא מספק בסיס לניהול חשבונות, אבטחה, עיצוב רשתות ורישום לוגים.</div>
 
-**What is AWS Snowball, and when should it be used?**  
-AWS Snowball is a service offering secure, rugged devices that bring AWS computing and storage to edge environments.  
-These devices help transfer data into and out of AWS, commonly known as Snowball or Snowball Edge.
+**Explain how AWS WAF protects web applications from common attacks.**
 
-**What are the key differences between AWS Backup and manual snapshot backups?**  
-An AWS snapshot is a point-in-time copy of an EBS volume with limited storage and recovery options.  
-An EC2 backup is a more flexible, comprehensive backup of cloud workloads, ensuring reliable protection and fast recovery.
+<div dir="rtl">AWS WAF מגן על יישומי אינטרנט על ידי ניטור בקשות HTTP/S לחסימת מתקפות כמו SQL Injection ו-XSS.  
+הוא משתמש בתכונות כמו רשימות בקרת גישה (ACLs), חוקים וקבוצות חוקים כדי לספק אבטחה מקיפה.</div>
 
-**How does AWS Shield help mitigate DDoS attacks?**  
-AWS Shield automatically mitigates DDoS attacks by creating and deploying custom AWS WAF rules.  
-It also provides AWS WAF access at no extra cost for application layer DDoS protection with CloudFront or Application Load Balancer.
+**What is AWS Snowball, and when should it be used?**
 
-**Explain the differences between AWS Transit Gateway and VPC Peering.**  
-AWS Transit Gateway simplifies large-scale network management by connecting multiple VPCs and on-premises networks, reducing overhead.  
-In contrast, VPC Peering directly links two VPCs but becomes complex and harder to scale in larger environments.
+<div dir="rtl">AWS Snowball הוא שירות המספק מכשירים מאובטחים וקשיחים (פיזיים) שמביאים יכולות מחשוב ואחסון של AWS לסביבות קצה.  
+מכשירים אלה מסייעים בהעברת נתונים אל AWS וממנו, והם מוכרים בשם Snowball או Snowball Edge.</div>
 
-**What is AWS Step Functions, and how does it help with workflow automation?**  
-AWS Step Functions is a visual workflow service that helps developers automate processes, manage microservices,  
-and build distributed applications, including data and machine learning (ML) pipelines using AWS services.
+**What are the key differences between AWS Backup and manual snapshot backups?**
 
-**How does AWS Control Tower assist organizations in managing multiple AWS accounts?**  
-AWS Control Tower simplifies setting up a multi-account environment and landing zone for easier migration.  
-It leverages services like Organizations, Service Catalog, and Config to govern the environment.
+<div dir="rtl">צילום מצב (Snapshot) ב-AWS הוא עותק בנקודת זמן של נפח EBS עם אפשרויות אחסון ושחזור מוגבלות.  
+גיבוי EC2 הוא פתרון גיבוי גמיש ומקיף יותר עבור עומסי עבודה בענן, המבטיח הגנה אמינה ושחזור מהיר.</div>
 
-**What is the significance of AWS Outposts in hybrid cloud solutions?**  
-AWS Outposts bring AWS infrastructure and services to on-premises environments, offering a consistent hybrid cloud experience.  
-It allows organizations to run AWS services locally and integrate seamlessly with the AWS cloud for unified management.
+**How does AWS Shield help mitigate DDoS attacks?**
 
-**Explain the key use cases for AWS Elastic File System (EFS) compared to S3 and EBS.**  
-AWS Elastic File System (EFS) is designed for shared file systems where multiple EC2 instances access the same data.  
-Unlike S3 and EBS, EFS offers scalable file storage with NFS support for concurrent reads and writes across multiple instances.
+<div dir="rtl">AWS Shield מפחית אוטומטית מתקפות DDoS על ידי יצירה ופריסה של חוקים מותאמים ב-AWS WAF.  
+הוא גם מספק גישה ל-AWS WAF ללא עלות נוספת להגנה מפני מתקפות DDoS בשכבת היישום באמצעות CloudFront או Application Load Balancer.</div>
+
+**Explain the differences between AWS Transit Gateway and VPC Peering.**
+
+<div dir="rtl">AWS Transit Gateway מפשט ניהול רשתות בקנה מידה גדול על ידי חיבור מספר VPCs ורשתות מקומיות, מה שמפחית את העומס.  
+לעומת זאת, VPC Peering מקשר ישירות בין שני VPCs, אך הופך למורכב וקשה יותר לניהול בסביבות גדולות.</div>
+
+**What is AWS Step Functions, and how does it help with workflow automation?**
+
+<div dir="rtl">AWS Step Functions הוא שירות זרימת עבודה חזותי המסייע למפתחים להפוך תהליכים לאוטומטים, לנהל מיקרושירותים,  
+ולבנות יישומים מבוזרים, כולל piplines ולמידת מכונה (ML) באמצעות שירותי AWS.</div>
+
+**How does AWS Control Tower assist organizations in managing multiple AWS accounts?**
+
+<div dir="rtl">AWS Control Tower מספק מסגרת ניהולית מרכזית שמפשטת את הקמת "Landing Zones", ומאפשר ניהול אבטחה, תאימות וסטנדרטים בין חשבונות AWS.  
+הוא מקים ומנהל את המדיניות והמדדים בצורה אוטומטית דרך AWS Organizations ו-AWS Service Catalog.</div>
+
+**What is the significance of AWS Outposts in hybrid cloud solutions?**
+
+<div dir="rtl">AWS Outposts מביא את התשתיות והשירותים של AWS לסביבות מקומיות, ומספק חווית ענן היברידית אחידה.  
+הוא מאפשר לארגונים להריץ שירותי AWS באופן מקומי ולשלב אותם בצורה חלקה עם ענן AWS לניהול מאוחד.</div>
+
+**Explain the key use cases for AWS Elastic File System (EFS) compared to S3 and EBS.**
+
+<div dir="rtl">AWS Elastic File System (EFS) מיועד למערכות קבצים משותפות, בהן מספר מופעי EC2 יכולים לגשת לאותו מידע בו זמנית.  
+בניגוד ל-S3 ול-EBS, אשר מיועדים לאחסון אובייקטים ודיסקים קשיחים, EFS מספק אחסון קבצים גמיש, בו ניתן לבצע קריאות וכתיבות מקבילות ממספר מופעים בבת אחת.  
+EFS תומך בפרוטוקול NFS (Network File System), שמאפשר לשירותים שונים ומחשבים שונים לשתף נתונים בצורה חלקה.  
+היכולת להתרחב באופן אוטומטי בהתאם לצרכים ולבצע גיבויים באופן שקוף הופכת את EFS לפתרון מצוין לאחסון נתונים הדורשים גישה משותפת ומקבילית.</div>
