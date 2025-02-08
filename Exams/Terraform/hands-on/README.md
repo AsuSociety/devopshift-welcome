@@ -59,5 +59,9 @@ When you plan and apply, it will ask for the `vm_instance`. You can provide, for
 terraform apply -var="vm_name=[YOUR_NAME]"
 ```
 
-here is some of the output that i get and you shuld get after running the terraform apply command:
+Here is some of the output that i get and you shuld get after running the terraform apply command:
+1. Here you can see that when i apply he ask for the instance type-
 ![Alt text](https://github.com/AsuSociety/devopshift-welcome/blob/workshop/terraform/Exams/Terraform/hands-on/example-outputs/Screenshot%202025-02-08%20at%2018.48.28.png)
+2. Here its all the output i want to see when he finish to run, you can see here the ALB name, the EC2 public ip, the AZ of the subnets, and more-
+![Alt text](https://github.com/AsuSociety/devopshift-welcome/blob/workshop/terraform/Exams/Terraform/hands-on/example-outputs/Screenshot%202025-02-08%20at%2018.48.57.png)
+![Alt text](https://github.com/AsuSociety/devopshift-welcome/blob/workshop/terraform/Exams/Terraform/hands-on/example-outputs/Screenshot%202025-02-08%20at%2018.49.09.png)
