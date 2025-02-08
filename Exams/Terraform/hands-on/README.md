@@ -60,3 +60,4 @@ terraform apply -var="vm_name=[YOUR_NAME]"
 ```
 
 here is some of the output that i get and you shuld get after running the terraform apply command:
+![Alt text](https://github.com/AsuSociety/devopshift-welcome/blob/workshop/terraform/Exams/Terraform/hands-on/example-outputs/Screenshot%202025-02-08%20at%2018.48.28.png)
