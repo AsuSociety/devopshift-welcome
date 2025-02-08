@@ -60,9 +60,13 @@ terraform apply -var="vm_name=[YOUR_NAME]"
 ```
 
 Here is some of the output that i get and you shuld get after running the terraform apply command:
-1. Here you can see that when i apply he ask for the instance type-
-![Alt text](https://github.com/AsuSociety/devopshift-welcome/blob/workshop/terraform/Exams/Terraform/hands-on/example-outputs/Screenshot%202025-02-08%20at%2018.48.28.png)
+
+1. Here you can see that when i apply he ask for the instance type and the number of subnets-
+   ![Alt text](https://github.com/AsuSociety/devopshift-welcome/blob/workshop/terraform/Exams/Terraform/hands-on/example-outputs/Screenshot%202025-02-08%20at%2020.23.05.png)
 2. Here its all the output i want to see when he finish to run, you can see here the ALB name, the EC2 public ip, the AZ of the subnets, and more-
-   
-![Alt text](https://github.com/AsuSociety/devopshift-welcome/blob/workshop/terraform/Exams/Terraform/hands-on/example-outputs/Screenshot%202025-02-08%20at%2018.48.57.png)
-![Alt text](https://github.com/AsuSociety/devopshift-welcome/blob/workshop/terraform/Exams/Terraform/hands-on/example-outputs/Screenshot%202025-02-08%20at%2018.49.09.png)
+
+![Alt text](https://github.com/AsuSociety/devopshift-welcome/blob/workshop/terraform/Exams/Terraform/hands-on/example-outputs/Screenshot%202025-02-08%20at%2020.23.17.png)
+![Alt text](https://github.com/AsuSociety/devopshift-welcome/blob/workshop/terraform/Exams/Terraform/hands-on/example-outputs/Screenshot%202025-02-08%20at%2020.23.34.png)
+
+- The public subnets ip are from 10.0.0.0/24 and the private subnets ip are from 10.0.0.10/24.
+- Part 5 of the exam is about debugging and fixing terraform issues, you can see the answer in the part5.pdf file in this folder.
