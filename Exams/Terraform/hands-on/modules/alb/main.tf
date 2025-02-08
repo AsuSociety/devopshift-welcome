@@ -16,6 +16,16 @@ resource "aws_lb" "alb" {
   tags = {
     Name = "${var.vm_name}-alb"
   }
+  // lifecycle block to prevent accidental deletion of the load balancer
+  // create_before_destroy: Ensures zero-downtime deployments
+  // prevent_destroy: Protects critical resources from accidental deletion
+  lifecycle {
+    create_before_destroy = true
+    prevent_destroy       = false # Set to true in production
+    ignore_changes        = [tags]
+  }
+
+  depends_on = [aws_security_group.alb_sg]
 }
 
 # This resource block defines an AWS Load Balancer Target Group, who named OmerAsus-tg.
@@ -45,6 +55,14 @@ resource "aws_lb_target_group" "tg" {
   tags = {
     Name = "${var.vm_name}-tg"
   }
+  // lifecycle block to prevent accidental deletion of the target group
+  // ignore_changes: Prevents unnecessary updates for specific attributes
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = [tags]
+  }
+
+  depends_on = [aws_lb.alb]
 }
 
 # This resource defines an AWS Application Load Balancer (ALB) listener, who named OmerAsus-listener.
@@ -82,21 +100,35 @@ resource "aws_autoscaling_group" "asg" {
     value               = "${var.vm_name}-asg"
     propagate_at_launch = true
   }
+
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes = [
+      desired_capacity,
+      target_group_arns
+    ]
+  }
+
+  depends_on = [aws_lb_target_group.tg]
 }
 
 # This resource block defines an AWS Launch Template, who named OmerAsus-lt.
 # - image_id: The AMI ID to use for the instances, provided by the variable `ami`.
 # - instance_type: The type of instance to launch, provided by the variable `instance_type`.
 resource "aws_launch_template" "lt" {
-  name          = "${var.vm_name}-lt"
-  image_id      = var.ami
-  instance_type = var.instance_type
-
+  name                   = "${var.vm_name}-lt"
+  image_id               = var.ami
+  instance_type          = var.instance_type
+  vpc_security_group_ids = [aws_security_group.alb_sg.id]
   tag_specifications {
     resource_type = "instance"
     tags = {
       Name = "${var.vm_name}-instance"
     }
+  }
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = [tags, latest_version]
   }
 }
 
@@ -128,4 +160,9 @@ resource "aws_security_group" "alb_sg" {
   tags = {
     Name = "${var.vm_name}-alb-sg"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [var.vpc_id]
 }

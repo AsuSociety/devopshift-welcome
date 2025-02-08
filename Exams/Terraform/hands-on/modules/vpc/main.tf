@@ -8,6 +8,11 @@ resource "aws_vpc" "custom_vpc" {
   tags = {
     Name = "${var.vm_name}-vpc"
   }
+
+  lifecycle {
+    create_before_destroy = true
+    prevent_destroy       = false # Set to true in production
+  }
 }
 
 # Creates a public subnet within a custom VPC who named OmerAsus-public-subnet.
@@ -25,6 +30,12 @@ resource "aws_subnet" "public_subnet" {
   tags = {
     Name = "${var.vm_name}-public-subnet-${count.index}"
   }
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = [tags]
+  }
+
+  depends_on = [aws_vpc.custom_vpc]
 }
 
 # Creates a private subnet within a custom VPC who named OmerAsus-private-subnet.
@@ -40,6 +51,12 @@ resource "aws_subnet" "private_subnet" {
   tags = {
     Name = "${var.vm_name}-private-subnet-${count.index}"
   }
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes        = [tags]
+  }
+
+  depends_on = [aws_vpc.custom_vpc]
 }
 
 # This resource block creates an AWS Internet Gateway who named OmerAsus-igw.
@@ -49,6 +66,11 @@ resource "aws_internet_gateway" "igw" {
   tags = {
     Name = "${var.vm_name}-igw"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [aws_vpc.custom_vpc]
 }
 
 # Creates a public route table for the specified VPC who named OmerAsus-public-rt.
@@ -65,6 +87,11 @@ resource "aws_route_table" "public_rt" {
   tags = {
     Name = "${var.vm_name}-public-rt"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [aws_internet_gateway.igw]
 }
 
 # Creates a private route table for the specified VPC who named OmerAsus-private-rt.
@@ -74,6 +101,11 @@ resource "aws_route_table" "private_rt" {
   tags = {
     Name = "${var.vm_name}-private-rt"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [aws_vpc.custom_vpc]
 }
 
 # Associates a route table with public subnets.
@@ -83,6 +115,7 @@ resource "aws_route_table_association" "public_rt_assoc" {
   count          = var.subnet_count
   subnet_id      = aws_subnet.public_subnet[count.index].id
   route_table_id = aws_route_table.public_rt.id
+
 }
 
 # Shuffle the availability zones to ensure each subnet is in a different AZ

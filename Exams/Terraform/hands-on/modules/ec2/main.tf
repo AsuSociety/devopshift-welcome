@@ -13,9 +13,13 @@ resource "aws_instance" "ec2" {
     Name = "${var.vm_name}-ec2"
   }
 
-  #   lifecycle {
-  #     ignore_changes = [tags]
-  #   }
+  lifecycle {
+    create_before_destroy = true
+    prevent_destroy       = false # Set to true in production
+    ignore_changes        = [tags]
+  }
+
+  depends_on = [aws_security_group.sg]
 }
 
 # Creates an AWS Security Group with the specified name and rules, who named OmerAsus-ec2-sg.
@@ -42,5 +46,9 @@ resource "aws_security_group" "sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  lifecycle {
+    create_before_destroy = true
+  }
+
 }
 
