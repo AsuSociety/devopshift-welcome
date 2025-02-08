@@ -38,6 +38,7 @@ variable "vpc_cidr" {
 
 // EC2 instance type
 variable "instance_type" {
+  description = "The instance type for the EC2 instance, for example t2.micro"
   #   default = "t2.micro"
 }
 
@@ -53,9 +54,9 @@ provider "aws" {
 
 // the amount of subnets to create
 variable "subnet_count" {
-  description = "Number of subnets to create"
+  description = "Number of subnets to create, needs more than 1 for the alb"
   type        = number
-  default     = 2
+  #   default     = 2
 }
 
 variable "az_list" {
