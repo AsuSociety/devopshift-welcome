@@ -53,7 +53,7 @@ As requested in the third part of the test, I used modules, and this is also to 
 
 ## Customization
 
-When you plan and apply, it will ask for the `vm_instance`. You can provide, for example, `"t2.micro"` and the number of subnets. You can also customize the deployment by modifying the variables in `variables.tf` or by passing them through the command line using the `-var` flag. For example:
+When you plan and apply, it will ask for the `vm_instance` and the `subnet_count`. You can provide, for example, `"t2.micro"` and `2`. You can also customize the deployment by modifying the variables in `variables.tf` or by passing them through the command line using the `-var` flag. For example:
 
 ```bash
 terraform apply -var="vm_name=[YOUR_NAME]"
