@@ -8,11 +8,11 @@ keys/
 keys/
 # Local .terraform directories
 **/.terraform/*
-
+*.log
 # .tfstate files
 *.tfstate
 *.tfstate.*
-
+.terraform.lock.hcl
 # Crash log files
 crash.log
 crash.*.log
