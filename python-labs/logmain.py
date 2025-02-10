@@ -21,6 +21,7 @@ def check_server_indict(x):
 
 while True:
     server= input("Enter server name or '0' to exit: ")
+    server= server.strip().lower()
     if server=="0":
         break
     check_server_indict(server)
