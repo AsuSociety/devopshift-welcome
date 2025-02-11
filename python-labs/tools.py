@@ -1,10 +1,8 @@
 from loglab import setup_logger
-# import loglab
+logger= setup_logger()
 
-# logger= loglab.setup_logger()
-logger = setup_logger()
+serverdict= {"docker": True, "apache2": False, "nginx": True}
 
-serverdict= {"server1": True, "server2": False, "server3": True, "server4": False, "server5": True}
 def check_server_indict(x):
     try:
         if x=="":
@@ -19,9 +17,9 @@ def check_server_indict(x):
         logger.error(f"There was ERROR: {e} ")
 
 
-while True:
-    server= input("Enter server name or '0' to exit: ")
-    server= server.strip().lower()
-    if server=="0":
-        break
-    check_server_indict(server)
+# while True:
+#     server= input("Enter server name or '0' to exit: ")
+#     server= server.strip().lower()
+#     if server=="0":
+#         break
+#     check_server_indict(server)
