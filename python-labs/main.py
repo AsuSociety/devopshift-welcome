@@ -1,7 +1,6 @@
 from models import ServerStatusResponse, Server , read_server_list, add_new_server
 from fastapi import FastAPI
 app = FastAPI()
-serverdict= {"docker": True, "apache2": False, "nginx": True}
 
 
 
