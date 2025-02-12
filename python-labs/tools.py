@@ -3,7 +3,7 @@ logger= setup_logger()
 
 serverdict= {"docker": True, "apache2": False, "nginx": True}
 
-def check_server_indict(x):
+def check_server_indict(x:str):
     try:
         if x=="":
             raise KeyError("Invalid server name")

@@ -4,7 +4,7 @@ import logging
 import json
 
 class JsonFormatter(logging.Formatter):
-    def format(self, record):
+    def format(self, record: logging.LogRecord) -> str:
         log = {
             "timestamp": self.formatTime(record, self.datefmt),
             "moudle": record.module, 
