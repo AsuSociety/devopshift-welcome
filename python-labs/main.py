@@ -2,7 +2,7 @@ from models import ServerStatusResponse, Server , read_server_list, add_new_serv
 from fastapi import FastAPI
 app = FastAPI()
 
-
+# To run this code - fastapi dev main.py
 
 @app.get("/")
 def hello_world():
