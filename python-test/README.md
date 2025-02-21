@@ -1,61 +1,64 @@
-# Cloud Setup Automation
+# **Cloud Setup Automation**
 
-This project automates the setup of AWS infrastructure using Terraform and validates the resources using boto3.
-The setup includes creating an EC2 instance, an Application Load Balancer (ALB), and associated resources.
+This project automates the setup of AWS infrastructure using Terraform and validates the created resources using `boto3`. The setup includes:
 
-## Features
+- Creating an EC2 instance
+- Setting up an Application Load Balancer (ALB)
+- Configuring associated resources
 
-- Generates a Terraform template based on user inputs
-- Applies the Terraform configuration to create AWS resources
-- Validates the created resources using boto3
-- Saves validation results to a JSON file
+## **Features**
 
-## Prerequisites
+✅ Generates a Terraform template based on user inputs  
+✅ Deploys AWS resources using Terraform  
+✅ Validates the deployed resources using `boto3`  
+✅ Saves validation results to a JSON file
 
-- Python 3.6+
-- Terraform
-- AWS CLI configured with appropriate credentials
-- Required Python packages: `boto3`, `jinja2`, `python-terraform`, there is requirements file
+## **Prerequisites**
 
-## Installation
+- **Python** 3.6+
+- **Terraform** installed and added to your `PATH`
+- **AWS CLI** configured with appropriate credentials
+- Required Python packages: `boto3`, `jinja2`, `python-terraform` (listed in `requirements.txt`)
 
-1. Clone the repository:
+## **Installation**
+
+1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/cloud-setup-automation.git
-   cd cloud-setup-automation
+   git clone https://github.com/AsuSociety/devopshift-welcome.git
+   cd devopshift-welcome/python/python-test
    ```
 
-2. Install the required Python packages:
+2. **Install dependencies:**
 
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Ensure Terraform is installed and available in your PATH.
+3. **Ensure Terraform is installed and available in your `PATH`.**
 
-## Usage
+## **Usage**
 
-1. Run the script:
+1. **Run the script:**
 
    ```bash
    python cloud_setup.py
    ```
 
-2. Follow the prompts to provide the necessary inputs:
+2. **Follow the prompts and provide the required inputs:**
 
-   - Pick an AMI (ubuntu or amazon)
-   - Pick an instance size (small or medium)
-   - Specify the region (e.g., us-east-1)
-   - Provide a name for your load balancer. The name should be a maximum of 8 characters because a unique timestamp is added to the name.
+   - Choose an AMI (`ubuntu` or `amazon`)
+   - Select an instance size (`small` or `medium`)
+   - Specify the AWS region (e.g., `us-east-1`)
+   - Enter a name for the load balancer (max **8 characters**, as a unique timestamp is appended)
 
-3. The script will:
-   - Generate a Terraform template based on your inputs
-   - Apply the Terraform configuration to create the AWS resources
-   - Validate the created resources using boto3
-   - Save the validation results to `aws_validation.json`
+3. **The script will:**
+   - Generate a Terraform configuration based on your inputs
+   - Deploy AWS resources using Terraform
+   - Validate the created resources with `boto3`
+   - Save validation results to `aws_validation.json`
 
-## Example
+## **Example Run**
 
 ```bash
 Hey, let's set up a cloud thing!
@@ -75,3 +78,15 @@ Load Balancer DNS: OmerAlb-123456.elb.amazonaws.com
 
 Validation data saved to aws_validation.json
 ```
+
+---
+
+## **Note**
+
+Sometimes, there may be an issue with the subnet configuration. If this happens, you may need to manually modify the following line in the Terraform script:
+
+```hcl
+cidr_block = "172.31.${96 + count.index}.0/24"
+```
+
+For example, if the default value (`96`) doesn't work, try replacing it with `86`.
