@@ -90,3 +90,13 @@ cidr_block = "172.31.${96 + count.index}.0/24"
 ```
 
 For example, if the default value (`96`) doesn't work, try replacing it with `86`.
+
+---
+
+# ⚠️ **ALSO, PLEASE DON'T FORGET TO DESTROY WHEN YOU FINISH!!!** ⚠️
+
+To clean up your resources, run:
+
+```bash
+terraform destroy
+```
