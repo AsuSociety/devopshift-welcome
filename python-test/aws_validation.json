@@ -1,0 +1,6 @@
+{
+    "instance_id": "i-03d2cacd3280083e8",
+    "instance_state": "running",
+    "public_ip": "3.88.164.2",
+    "load_balancer_dns": "OmerAlb-762762496.us-east-1.elb.amazonaws.com"
+}
