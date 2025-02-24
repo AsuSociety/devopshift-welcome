@@ -7,12 +7,12 @@ spec:
   selector:
     istio: ingressgateway
   servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -21,20 +21,20 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-  - "*"
+    - "*"
   gateways:
-  - istio-ingressgateway
+    - istio-ingressgateway
   http:
-  - match:
-    - uri:
-        prefix: /kiali
-    rewrite:
-      uri: /kiali
-    route:
-    - destination:
-        host: kiali
-        port:
-          number: 20001
+    - match:
+        - uri:
+            prefix: /kiali
+      rewrite:
+        uri: /kiali
+      route:
+        - destination:
+            host: kiali
+            port:
+              number: 20001
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -43,30 +43,30 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-  - "*"
+    - "*"
   gateways:
-  - istio-ingressgateway
+    - istio-ingressgateway
   http:
-  - match:
-    - uri:
-        prefix: /jaeger
-    rewrite:
-      uri: /jaeger
-    route:
-    - destination:
-        host: tracing
-        port:
-          number: 80
-  - match:
-    - uri:
-        prefix: /jaeger/
-    rewrite:
-      uri: /
-    route:
-    - destination:
-        host: tracing
-        port:
-          number: 80
+    - match:
+        - uri:
+            prefix: /jaeger
+      rewrite:
+        uri: /jaeger
+      route:
+        - destination:
+            host: tracing
+            port:
+              number: 80
+    - match:
+        - uri:
+            prefix: /jaeger/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: tracing
+            port:
+              number: 80
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -75,17 +75,17 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-  - "*"
+    - "*"
   gateways:
-  - istio-ingressgateway
+    - istio-ingressgateway
   http:
-  - match:
-      - uri:
-          prefix: /prometheus/
-    rewrite:
-      uri: /prometheus/
-    route:
-    - destination:
-        host: prometheus
-        port:
-          number: 9090
+    - match:
+        - uri:
+            prefix: /prometheus/
+      rewrite:
+        uri: /prometheus/
+      route:
+        - destination:
+            host: prometheus
+            port:
+              number: 9090
