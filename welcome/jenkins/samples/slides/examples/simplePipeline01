@@ -109,27 +109,28 @@ pipeline {
                 }
             }
         }
-
-        // Run this stage regardless of the user choice but we will check the user choice in the stage and print a message
-        stage('Finalize the Pipeline') {
-            steps {
-                script {
-                    if (env.USER_CHOICE == 'Proceed') {
-                        echo 'Pipeline completed successfully'
-                    } else {
-                        echo 'Pipeline aborted by the user'
-                    }
-                }
-            }
-        }
     }
 
     post {
+        success {
+            script {
+                if (env.USER_CHOICE == 'Proceed') {
+                    echo 'Pipeline completed successfully'
+                }
+            }
+        }
+        aborted {
+            script {
+                if (env.USER_CHOICE == 'Abort') {
+                    echo 'Pipeline aborted by the user'
+                }
+            }
+        }
         always {
             dir("${PROJECT_HOME}") {
                 echo 'Cleaning up workspace...'
                 sh 'rm -rf $PYENV_HOME'
             }
         }
-    }
+        }
 }
