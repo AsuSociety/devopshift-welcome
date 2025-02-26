@@ -1,0 +1,95 @@
+pipeline {
+    agent any
+
+    environment {
+        FLASK_ENV = 'development'
+        PROJECT_HOME = "${WORKSPACE}"
+        GIT_BRANCH = 'jenkins-workshop'
+        GIT_URI = 'https://github.com/AsuSociety/devopshift-welcome.git'
+    }
+
+    stages {
+        stage('Stage 1 - Clone Git Project') {
+            steps {
+                script {
+                    sh '''#!/bin/bash
+                    echo "Git branch $GIT_BRANCH"
+                    echo "Git Uri $GIT_URI"
+                    echo "Cloning $GIT_BRANCH from $GIT_URI"
+                    '''
+                }
+            }
+        }
+
+        stage('Stage 2 - Setup Environment and Install Dependencies') {
+            steps {
+                script {
+                    sh '''#!/bin/bash
+                    echo "Installing virtualenv"
+                    echo "pip install virtualenv"
+                    echo "Delete previous built venv and create a new one"
+                    echo "rm -rf $PROJECT_HOME"
+                    echo "virtualenv $PROJECT_HOME"
+                    echo "source $PROJECT_HOME/bin/activate"
+                    echo "Install required Python packages"
+                    echo "pip install -r req.txt"
+                    '''
+                }
+            }
+        }
+
+        stage('Stage 3 - Run Flask Application') {
+            steps {
+                script {
+                    sh '''#!/bin/bash
+                    echo "source $PROJECT_HOME/bin/activate"
+                    echo "Gets tasks"
+                    echo "Starting Flask App on 0.0.0.0:5005"
+                    echo "nohup flask run --host=0.0.0.0 --port=5005 > flask_app.log &"
+                    '''
+                }
+            }
+        }
+
+        stage('Stage 4 - Wait for User Approval') {
+            steps {
+                script {
+                    def userInput = input message: 'Is the App Running?',
+                                        parameters: [choice(name: 'Proceed', choices: ['Proceed', 'Abort'])]
+                    env.USER_CHOICE = userInput
+                }
+            }
+        }
+
+        stage('Stage 5 - Abort the Pipeline') {
+            when {
+                expression { env.USER_CHOICE == 'Abort' }
+            }
+            steps {
+                script {
+                    error 'Pipeline aborted by the user ${env.BUILD_USER}'
+                }
+            }
+        }
+
+        stage('Stage 6 - Verify App') {
+            steps {
+                script {
+                    echo "Flask App is Running!"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully ${env.BUILD_USER}'
+        }
+        aborted {
+            echo 'Pipeline aborted by user ${env.BUILD_USER}'
+        }
+        always {
+            echo 'This will always run'
+        }
+    }
+}
