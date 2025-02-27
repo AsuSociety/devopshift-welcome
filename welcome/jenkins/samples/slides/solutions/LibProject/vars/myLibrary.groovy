@@ -7,10 +7,6 @@ def deployApp(String branchName) {
     echo "Now deploying the application on branch: ${branchName}..."
     // Mock deploy logic here
 }
-def testApp() {
-    echo "Now testing the application..."
-    // Mock test logic here
-}
 
 
 def cleanup() {

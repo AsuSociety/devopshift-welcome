@@ -19,14 +19,26 @@ pipeline {
                 }
             }
         }
+        
+        stage('Lint'){
+            steps {
+                script {
+                    // Call the mock lintApp function
+                    myLibraryTests.lintApp()
+                }
+            }
+        
+        }
+        
         stage('Test') {
             steps {
                 script {
                     // Call the mock testApp function
-                    myLibrary.testApp()
+                    myLibraryTests.testApp()
                 }
             }
         }
+
 
         stage('Deploy') {
             steps {
