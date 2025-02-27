@@ -94,13 +94,14 @@ pipeline {
                     script {
                         // Sleep to allow Flask to start
                         sleep 5
-
+                        
+                        
                         // Verify Flask application is running
                         def tasks = sh(script: "pgrep -f 'flask run'", returnStatus: true) ? '' : sh(script: "pgrep -f 'flask run'", returnStdout: true).trim()
                         if (!tasks) {
                             // Print error message and show the flask_app.log file content
                             echo "There is a problem with our flask application - printing log below"
-                            sh 'cat flask_app.log'
+                            sh 'cat flask_app.log'                            
                             error "Flask application is not running!"
                         } else {
                             echo "Flask application is running successfully."
@@ -116,6 +117,12 @@ pipeline {
             script {
                 if (env.USER_CHOICE == 'Proceed') {
                     echo 'Pipeline completed successfully'
+                    sh """
+                        cp flask_app.log flask_app_${env.BUILD_NUMBER}.log 
+                    """
+                    archiveArtifacts artifacts: 'flask_app_${env.BUILD_NUMBER}.log', allowEmptyArchive: true
+
+
                 }
             }
         }
