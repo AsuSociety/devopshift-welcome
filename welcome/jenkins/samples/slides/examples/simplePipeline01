@@ -120,7 +120,7 @@ pipeline {
                     sh """
                         echo "ITS WORKED?" >> flask_app_${env.BUILD_NUMBER}.log 
                     """
-                    archiveArtifacts artifacts: 'flask_app_${env.BUILD_NUMBER}.log', allowEmptyArchive: true
+                    archiveArtifacts artifacts: "flask_app_${env.BUILD_NUMBER}.log", allowEmptyArchive: true
 
 
                 }
