@@ -19,6 +19,14 @@ pipeline {
                 }
             }
         }
+        stage('Test') {
+            steps {
+                script {
+                    // Call the mock testApp function
+                    myLibrary.testApp()
+                }
+            }
+        }
 
         stage('Deploy') {
             steps {
