@@ -25,7 +25,7 @@ pipeline {
                     }
                 }
                 stages {
-                    stage('Install Dependencies') {
+                    stage('Install Dependencies and Test') {
                         agent {
                             docker {
                                 image "python:${PYTHON_VER}" // Python version from the matrix
@@ -39,27 +39,29 @@ pipeline {
                                 export HOME=${WORKSPACE}
                                 pip install --upgrade pip
                                 pip install faker
+                                set -e  # Exit immediately if a command exits with a non-zero status
+                                python app.py
                             '''
                         }
                     }
 
-                    stage('Run Test') {
-                        agent {
-                            docker {
-                                image "python:${PYTHON_VER}" 
-                                reuseNode true // Reuse the workspace for Docker containers
-                            }
-                        }
-                        steps {
-                            dir(env.APP_PATH){
-                                sh '''
-                                    export HOME=${WORKSPACE}
-                                    set -e  # Exit immediately if a command exits with a non-zero status
-                                    python app.py
-                                '''
-                            }
-                        }
-                    }
+                    // stage('Run Test') {
+                    //     agent {
+                    //         docker {
+                    //             image "python:${PYTHON_VER}" 
+                    //             reuseNode true // Reuse the workspace for Docker containers
+                    //         }
+                    //     }
+                    //     steps {
+                    //         dir(env.APP_PATH){
+                    //             sh '''
+                    //                 export HOME=${WORKSPACE}
+                    //                 set -e  # Exit immediately if a command exits with a non-zero status
+                    //                 python app.py
+                    //             '''
+                    //         }
+                    //     }
+                    // }
                 }
             }
         }
