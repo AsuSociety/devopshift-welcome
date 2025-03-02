@@ -11,11 +11,11 @@ pipeline {
     }
 
     stages {
-        stage('Clone'){
-            steps(
-                git branch: 'jenkins-workshop', url: 'https://github.com/AsuSociety/devopshift-welcome.git'
-            )
-        }
+        // stage('Clone'){
+        //     steps(
+        //         git branch: 'jenkins-workshop', url: 'https://github.com/AsuSociety/devopshift-welcome.git'
+        //     )
+        // }
 
 
         stage('Install Dependencies') {
