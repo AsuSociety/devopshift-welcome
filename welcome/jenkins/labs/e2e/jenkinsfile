@@ -91,7 +91,7 @@ pipeline {
                     stage('Build Image') {
                         steps {
                             dir(env.APP_PATH){
-                                script{
+                                script {
                                     def IMAGE_NAME = "${REPO_NAME}/faker:${PYTHON_VER}-slim-1.0"
                                     echo "Building Docker image ${IMAGE_NAME}..."
                                     docker.build(IMAGE_NAME)                                
@@ -108,17 +108,19 @@ pipeline {
                 axes {
                     axis {
                         name 'PYTHON_VER'
-                        values 3.8 , 3.9
+                        values 3.8, 3.9
                     }
                 }
                 stages {
                     stage('Push Image') {
                         steps {
-                            def IMAGE_NAME = "${REPO_NAME}/faker:${PYTHON_VER}-slim-1.0"
-                            echo "Pushing Docker image ${IMAGE_NAME}..."
-                            docker.withRegistry('https://index.docker.io/v1/', env.DOCKERHUB_CREDENTIALS) {            
-                                def appImage = docker.image(IMAGE_NAME)
-                                appImage.push()
+                            script {
+                                def IMAGE_NAME = "${env.REPO_NAME}/faker:${PYTHON_VER}-slim-1.0"
+                                echo "Pushing Docker image ${IMAGE_NAME}..."
+                                docker.withRegistry('https://index.docker.io/v1/', env.DOCKERHUB_CREDENTIALS) {
+                                    def appImage = docker.image(IMAGE_NAME)
+                                    appImage.push()
+                                }
                             }
                         }
                     }
