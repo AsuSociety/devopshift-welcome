@@ -2,17 +2,17 @@ pipeline {
     agent { label 'linux || docker' }
 
     environment {
-        PYTHON_VERSIONS = '3.8,3.9'
-        DOCKERHUB_CREDENTIALS = 'dockerhub-mogli-creds'
-        REPO_NAME = 'madaralmog'
-        APP_PATH = 'welcome/jenkins/pipelines-demos/ex4/app'
+        PYTHON_VERSIONS = '3.8,3.9'        
+        DOCKERHUB_CREDENTIALS =  "AsusHub"
+        REPO_NAME = "omerasus3"
+        APP_PATH = 'welcome/jenkins/labs/e2e/app'
     }
 
     stages {
 
         stage('Clone Python Project') {
             steps {
-                git branch: 'jenkins-workshop', url: 'https://github.com/almog2290/devopshift-welcome.git'
+                git branch: 'jenkins-workshop', url: 'https://github.com/AsuSociety/devopshift-welcome.git'
             }
         }
 
