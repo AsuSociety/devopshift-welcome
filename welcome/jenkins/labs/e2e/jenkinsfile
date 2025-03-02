@@ -24,12 +24,12 @@ pipeline {
                     }
                 }
                 stages {
-                    stage('Process Python Version') {
+                    stage('Install and Test') {
                         agent {
                             docker {
                                 image "python:${PYTHON_VER}"
-                                args '-v $HOME/.cache/pip:/root/.cache/pip' // Cache pip downloads
-                                reuseNode true // Reuse the workspace across steps
+                                args '-v $HOME/.cache/pip:/root/.cache/pip'
+                                reuseNode true
                             }
                         }
                         steps {
@@ -48,23 +48,23 @@ pipeline {
                                     python app.py
                                 '''
                             }
+                        }
+                    }
 
-                            // Build Docker image
+                    stage('Build and Push') {
+                        // No agent override here; runs on the host agent (labeled 'docker')
+                        steps {
                             dir(env.APP_PATH) {
                                 script {
                                     def IMAGE_NAME = "${env.REPO_NAME}/faker:${PYTHON_VER}-slim-1.0"
                                     echo "Building Docker image ${IMAGE_NAME}..."
                                     docker.build(IMAGE_NAME)
-                                }
-                            }
 
-                            // Push to DockerHub
-                            script {
-                                def IMAGE_NAME = "${env.REPO_NAME}/faker:${PYTHON_VER}-slim-1.0"
-                                echo "Pushing Docker image ${IMAGE_NAME}..."
-                                docker.withRegistry('https://index.docker.io/v1/', env.DOCKERHUB_CREDENTIALS) {
-                                    def appImage = docker.image(IMAGE_NAME)
-                                    appImage.push()
+                                    echo "Pushing Docker image ${IMAGE_NAME}..."
+                                    docker.withRegistry('https://index.docker.io/v1/', env.DOCKERHUB_CREDENTIALS) {
+                                        def appImage = docker.image(IMAGE_NAME)
+                                        appImage.push()
+                                    }
                                 }
                             }
                         }
