@@ -34,14 +34,16 @@ pipeline {
                             }
                         }
                         steps {
+                            dir(env.APP_PATH){
                             // Install the python faker library
-                            sh '''
-                                export HOME=${WORKSPACE}
-                                pip install --upgrade pip
-                                pip install faker
-                                set -e  # Exit immediately if a command exits with a non-zero status
-                                python app.py
-                            '''
+                                sh '''
+                                    export HOME=${WORKSPACE}
+                                    pip install --upgrade pip
+                                    pip install faker
+                                    set -e  # Exit immediately if a command exits with a non-zero status
+                                    python app.py
+                                '''
+                            }
                         }
                     }
 
