@@ -32,7 +32,7 @@ pipeline {
                             docker {
                                 image "python:${PYTHON_VER}" // Python version from the matrix
                                 args '-v $HOME/.cache/pip:/root/.cache/pip' // Mount the pip cache for reuse in future stages
-                                reuseNode true // Reuse the workspace for Docker containers
+                                // reuseNode true // Reuse the workspace for Docker containers
                             }
                         }
                         steps {
