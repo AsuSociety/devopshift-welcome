@@ -1,109 +1,21 @@
 pipeline {
-    agent {label 'docker'}
+    agent { label 'docker' }
 
-    // Define environment variables
     environment {
-        PYTHON_VERSIONS =  "3.8,3.9"
-        DOCKERHUB_CREDENTIALS =  "AsusHub"
+        PYTHON_VERSIONS = "3.8,3.9"
+        DOCKERHUB_CREDENTIALS = "AsusHub"
         REPO_NAME = "omerasus3"
         APP_PATH = 'welcome/jenkins/labs/e2e/app'
-
     }
 
     stages {
-        stage('Clone'){
-            steps{
+        stage('Clone') {
+            steps {
                 git branch: 'jenkins-workshop', url: 'https://github.com/AsuSociety/devopshift-welcome.git'
             }
         }
 
-
-        stage('Install Dependencies') {
-            matrix {
-                axes {
-                    axis {
-                        name 'PYTHON_VER'
-                        values 3.8 , 3.9
-                    }
-                }
-                stages {
-                    stage('Install') {
-                        agent {
-                            docker {
-                                image "python:${PYTHON_VER}" // Python version from the matrix
-                                args '-v $HOME/.cache/pip:/root/.cache/pip' // Mount the pip cache for reuse in future stages
-                                // reuseNode true // Reuse the workspace for Docker containers
-                            }
-                        }
-                        steps {
-                            // Install the python faker library
-                            sh '''
-                                export HOME=${WORKSPACE}
-                                pip install --upgrade pip
-                                pip install faker
-                            '''
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Test Application') {
-            matrix {
-                axes {
-                    axis {
-                        name 'PYTHON_VER'
-                        values 3.8 , 3.9
-                    }
-                }
-                stages {
-                    stage('Run Test') {
-                        agent {
-                            docker {
-                                image "python:${PYTHON_VER}" // Python version from the matrix
-                                reuseNode true // TIP: Reuse the workspace for Docker containers
-                            }
-                        }
-                        steps {
-                            dir(env.APP_PATH){
-                                sh '''
-                                export HOME=${WORKSPACE}
-                                set -e 
-                                python app.py
-                                '''      // TIP: Runs the Python script here and validate its output (expecting exit code 0 )   
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
-        stage('Build Docker Images') {
-            matrix {
-                axes {
-                    axis {
-                        name 'PYTHON_VER'
-                        values 3.8 , 3.9
-                    }
-                }
-                stages {
-                    stage('Build Image') {
-                        steps {
-                            dir(env.APP_PATH){
-                                script {
-                                    def IMAGE_NAME = "${REPO_NAME}/faker:${PYTHON_VER}-slim-1.0"
-                                    echo "Building Docker image ${IMAGE_NAME}..."
-                                    docker.build(IMAGE_NAME)                                
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('Push to DockerHub') {
+        stage('Build, Test, and Push') {
             matrix {
                 axes {
                     axis {
@@ -112,8 +24,41 @@ pipeline {
                     }
                 }
                 stages {
-                    stage('Push Image') {
+                    stage('Process Python Version') {
+                        agent {
+                            docker {
+                                image "python:${PYTHON_VER}"
+                                args '-v $HOME/.cache/pip:/root/.cache/pip' // Cache pip downloads
+                                reuseNode true // Reuse the workspace across steps
+                            }
+                        }
                         steps {
+                            // Install dependencies
+                            sh '''
+                                export HOME=${WORKSPACE}
+                                pip install --upgrade pip
+                                pip install faker
+                            '''
+
+                            // Test the application
+                            dir(env.APP_PATH) {
+                                sh '''
+                                    export HOME=${WORKSPACE}
+                                    set -e
+                                    python app.py
+                                '''
+                            }
+
+                            // Build Docker image
+                            dir(env.APP_PATH) {
+                                script {
+                                    def IMAGE_NAME = "${env.REPO_NAME}/faker:${PYTHON_VER}-slim-1.0"
+                                    echo "Building Docker image ${IMAGE_NAME}..."
+                                    docker.build(IMAGE_NAME)
+                                }
+                            }
+
+                            // Push to DockerHub
                             script {
                                 def IMAGE_NAME = "${env.REPO_NAME}/faker:${PYTHON_VER}-slim-1.0"
                                 echo "Pushing Docker image ${IMAGE_NAME}..."
