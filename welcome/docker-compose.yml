@@ -7,14 +7,13 @@ services:
             - '8080:8080'
             - '50000:50000'
         volumes:
-            - './jenkins-docker-certs-master:/certs/client:ro'
-            - './jenkins-data-master:/var/jenkins_home'
+            - 'jenkins-docker-certs-master:/certs/client:ro'
+            - 'jenkins-data-master:/var/jenkins_home'
         networks: 
             - jb
     jenkins-slave:
         build: ./jenkins/slave
         image: jenkins-jb/slave:1.0
-        # Removed container name to support scale out option 
         container_name: jenkins-slave 
         restart: always
         environment:
@@ -23,9 +22,8 @@ services:
             - "5005-5010:5005-5010"
 
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock  # Expose the docker daemon in the container
-            - ./volume:/home/jenkins # Avoid mysql volume mount issue
-        
+            - /var/run/docker.sock:/var/run/docker.sock
+            - 'jenkins-data-slave:/var/jenkins_home'
         networks: 
         - jb
         depends_on:
@@ -33,3 +31,8 @@ services:
 
 networks: 
   jb:
+
+volumes:
+    jenkins-data-master:
+    jenkins-data-slave:
+    jenkins-docker-certs-master:
