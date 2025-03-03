@@ -89,7 +89,7 @@ pipeline {
             echo 'Pipeline aborted by user ${env.BUILD_USER}'
         }
         always {
-            echo 'This will always run'
+            echo 'This will always run ya maniac'
         }
     }
 }
