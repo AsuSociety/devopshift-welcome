@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "github.com/AsuSociety/devopshift-welcome.git" # Replace with actual repo
+    repoURL: "github.com/AsuSociety/devopshift-welcome" # Replace with actual repo
     targetRevision: argocd-workshop
     path: welcome/exam/k8s-manifests # Path to your YAML files
   destination:
