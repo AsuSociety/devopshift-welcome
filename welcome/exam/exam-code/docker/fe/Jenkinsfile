@@ -5,14 +5,72 @@ pipeline {
         }
     }
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('docker-hub-creds')
-        DOCKER_REGISTRY = 'yanivomc'
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-jen')
+        DOCKER_REGISTRY = 'omerasus3'
         REPO_NAME = 'fe-exam'  // Change to 'be-exam' for backend pipeline
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         
     }
     stages {
-        
-        
-        
+        stage('Clone Repository') {
+            steps {
+                git branch: 'jenkins-workshop', url: 'https://github.com/AsuSociety/devopshift-welcome.git'
+            }
         }
+        
+        stage('Lint & Security Scan') {
+            steps {
+                sh 'pip install --upgrade pip'
+                sh 'pip install flake8 bandit'
+                parallel{
+                    stage('Lint')
+                    {
+                        steps{
+                            sh 'flake8 .'
+                        }
+                    }
+                    stage('Security Scan'){
+                        steps{
+                            sh 'bandit -r .'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'pip install -r requirements.txt'
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG ."
+                sh "docker tag $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG $DOCKER_REGISTRY/$REPO_NAME:latest"
+            }
+        }
+
+        stage('Run Tests in Container') {
+            steps {
+                sh "docker run --rm $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG pytest tests/"
+            }
+        }
+
+        stage('Integration Test with Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+                sleep 10
+                sh 'curl -f http://localhost:5002 || exit 1'  
+                sh 'docker-compose down'
+            }
+        }
+        
+        stage('Push to Docker Hub') {
+            steps {
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                sh "docker push $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG"
+                sh "docker push $DOCKER_REGISTRY/$REPO_NAME:latest"
+            }
+        }        
+    }
