@@ -1,7 +1,8 @@
 services:
   web:
-    build: ./fe
-    image: "yanivomc/fe-exam:latest"
+    build:
+      context: ./fe
+      dockerfile: Dockerfile
     ports:
       - "5002:5002"
     depends_on:
