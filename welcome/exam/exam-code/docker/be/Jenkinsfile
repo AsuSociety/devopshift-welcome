@@ -5,11 +5,12 @@ pipeline {
     //         image 'python:3.10'
     //     }
     // }
+
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-jen')
         DOCKER_REGISTRY = 'omerasus3'
-        REPO_NAME = 'be-exam'  // Change to 'be-exam' for backend pipeline
-        IMAGE_TAG = "${env.BUILD_NUMBER}"
+        REPO_NAME = 'be-exam' 
+        IMAGE_TAG = "${env.BUILD_NUMBER}"   
     }
     stages {
         stage('Clone Repository') {
@@ -63,7 +64,7 @@ pipeline {
         stage('Run Tests in Container') {
             steps {
                 dir("${WORKSPACE}/welcome/exam/exam-code/docker/be"){
-                    sh "docker run --rm $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG pytest tests/"
+                    sh "docker run --rm $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG pytest "
                 }
             }
         }
