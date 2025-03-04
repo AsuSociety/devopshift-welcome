@@ -18,10 +18,15 @@ pipeline {
             }
         }
         
-        stage('Lint & Security Scan') {
+        stage('Install Lint & Scan Tools') {
             steps {
                 sh 'pip install --upgrade pip'
                 sh 'pip install flake8 bandit'
+            }
+        }
+
+        stage('Lint & Security Scan') {
+
                 parallel (
                     "Lint": {
                         echo 'Running lint...'
@@ -32,7 +37,6 @@ pipeline {
                         sh 'bandit -r .'
                     }
                 )
-            }
         }
 
         stage('Install Dependencies') {
