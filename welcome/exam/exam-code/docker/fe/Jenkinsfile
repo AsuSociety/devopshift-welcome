@@ -79,10 +79,10 @@ pipeline {
         stage('Integration Test with Docker Compose') {
             steps {
                 dir("${WORKSPACE}/welcome/exam/exam-code/docker") {
-                    sh 'docker-compose up -d'
+                    sh 'docker-compose -f docker-compose.yaml up -d'
                     sleep 10
                     sh 'docker ps | grep -q 5002 && echo "Port 5002 is mapped and the container is running." || exit 1 ' // Adjust port for backend if needed
-                    sh 'docker-compose down'
+                    sh 'docker-compose -f docker-compose.yaml down'
                 }
             }
         }
