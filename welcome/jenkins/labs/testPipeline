@@ -6,6 +6,7 @@ pipeline {
         PROJECT_HOME = "${WORKSPACE}"
         GIT_BRANCH = 'jenkins-workshop'
         GIT_URI = 'https://github.com/AsuSociety/devopshift-welcome.git'
+        IMAGE_TAG = 'latest'
     }
 
     stages {
