@@ -43,7 +43,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 dir("${WORKSPACE}/welcome/exam/exam-code/docker/fe"){
-                    sh 'pip install -r requirements.txt'
+                    sh 'pip install -r requirements.txt --ignore-installed'
                 }
             }
         }
