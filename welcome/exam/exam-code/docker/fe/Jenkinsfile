@@ -81,7 +81,7 @@ pipeline {
                 dir("${WORKSPACE}/welcome/exam/exam-code/docker") {
                     sh 'docker-compose up -d'
                     sleep 10
-                    sh 'curl -f http://localhost:5003 || exit 1'
+                    sh 'curl -f http://localhost:5002 || exit 1'
                     sh 'docker-compose down'
                 }
             }
