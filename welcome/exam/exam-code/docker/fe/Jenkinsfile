@@ -50,8 +50,11 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir("${WORKSPACE}/welcome/exam/exam-code/docker/fe"){
-                    sh "docker build -t $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG ."
-                    sh "docker tag $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG $DOCKER_REGISTRY/$REPO_NAME:latest"
+                    def IMAGE_NAME = "$DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG"
+                    echo "Building Docker image ${IMAGE_NAME}..."
+                    docker.build(IMAGE_NAME, "--build-arg PYTHON_VERSION=${PYTHON_VER} .")
+                    // sh "docker build -t $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG ."
+                    // sh "docker tag $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG $DOCKER_REGISTRY/$REPO_NAME:latest"
                 }
             }
         }
