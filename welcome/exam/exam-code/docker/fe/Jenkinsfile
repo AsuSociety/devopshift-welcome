@@ -89,16 +89,10 @@ pipeline {
         
         stage('Push to Docker Hub') {
             steps {
-                dir("${WORKSPACE}/welcome/exam/exam-code/docker/fe"){
-                    script {
-                        def IMAGE_NAME = "$DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG"
-                        echo "Building Docker image ${IMAGE_NAME}..."
-                        docker.build(IMAGE_NAME, "--build-arg PYTHON_VERSION='3.10' .")
-                        // Tag the image as 'latest'
-                        sh "docker tag $IMAGE_NAME $DOCKER_REGISTRY/$REPO_NAME:latest"
-                    }
-                }
+                sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                sh "docker push $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG"
+                sh "docker push $DOCKER_REGISTRY/$REPO_NAME:latest"
             }
-        }        
+        }         
     }
 }
