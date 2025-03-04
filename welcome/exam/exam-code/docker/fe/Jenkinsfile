@@ -73,10 +73,10 @@ pipeline {
         stage('Integration Test with Docker Compose') {
             steps {
                 dir("${WORKSPACE}/welcome/exam/exam-code/docker"){
-                    sh 'docker-compose up -d'
+                    sh 'docker compose up -d'
                     sleep 10
                     sh 'curl -f http://localhost:5002 || exit 1'  
-                    sh 'docker-compose down'
+                    sh 'docker compose down'
                 }
             }
         }
