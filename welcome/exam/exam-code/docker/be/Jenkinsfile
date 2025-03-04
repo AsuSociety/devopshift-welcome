@@ -1,0 +1,104 @@
+pipeline {
+    agent any
+    // {
+    //     docker {
+    //         image 'python:3.10'
+    //     }
+    // }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-jen')
+        DOCKER_REGISTRY = 'omerasus3'
+        REPO_NAME = 'be-exam'  // Change to 'be-exam' for backend pipeline
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
+    }
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'jenkins-workshop', url: 'https://github.com/AsuSociety/devopshift-welcome.git'
+            }
+        }
+        
+        stage('Install Lint & Scan Tools') {
+            steps {
+                sh 'pip install --upgrade pip'
+                sh 'pip install flake8 bandit'
+            }
+        }
+        
+        stage('Lint & Security Scan') {
+            steps {
+                parallel(
+                    "Lint": {
+                        echo 'Running lint...'
+                        sh 'flake8 . || true'
+                    },
+                    "Security Scan": {
+                        echo 'Running security scan...'
+                        sh 'bandit -r . || true'
+                    }
+                )
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                dir("${WORKSPACE}/welcome/exam/exam-code/docker/be"){
+                    sh 'pip install -r requirements.txt --ignore-installed'
+                }
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                dir("${WORKSPACE}/welcome/exam/exam-code/docker/be"){
+                    script{
+                    def IMAGE_NAME = "$DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG"
+                    echo "Building Docker image ${IMAGE_NAME}..."
+                    docker.build(IMAGE_NAME, "--build-arg PYTHON_VERSION='3.10' .")                
+                    }
+                }
+            }
+        }
+
+        stage('Run Tests in Container') {
+            steps {
+                dir("${WORKSPACE}/welcome/exam/exam-code/docker/be"){
+                    sh "docker run --rm $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG pytest tests/"
+                }
+            }
+        }
+
+        stage('Install Docker Compose') {
+            steps {
+                sh 'curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
+                sh 'chmod +x /usr/local/bin/docker-compose'
+                sh 'docker-compose --version'
+            }
+        }
+
+        stage('Integration Test with Docker Compose') {
+            steps {
+                dir("${WORKSPACE}/welcome/exam/exam-code/docker") {
+                    sh 'docker-compose -f docker-compose.yaml up -d'
+                    sleep 10
+                    sh 'docker ps | grep -q 5001 && echo "Port 5001 is mapped and the container is running." || exit 1 ' // Adjust port for backend if needed
+                    sh 'docker-compose -f docker-compose.yaml down'
+                }
+            }
+        }
+        
+        stage('Push to Docker Hub') {
+            steps {
+                dir("${WORKSPACE}/welcome/exam/exam-code/docker/be"){
+                    script {
+                        def IMAGE_NAME = "$DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG"
+                        echo "Building Docker image ${IMAGE_NAME}..."
+                        docker.build(IMAGE_NAME, "--build-arg PYTHON_VERSION='3.10' .")
+                        // Tag the image as 'latest'
+                        sh "docker tag $IMAGE_NAME $DOCKER_REGISTRY/$REPO_NAME:latest"
+                    }
+                }
+            }
+        }        
+    }
+}
