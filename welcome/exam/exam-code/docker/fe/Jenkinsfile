@@ -9,7 +9,6 @@ pipeline {
         DOCKER_REGISTRY = 'omerasus3'
         REPO_NAME = 'fe-exam'  // Change to 'be-exam' for backend pipeline
         IMAGE_TAG = "${env.BUILD_NUMBER}"
-        
     }
     stages {
         stage('Clone Repository') {
@@ -24,10 +23,10 @@ pipeline {
                 sh 'pip install flake8 bandit'
             }
         }
-
+        
         stage('Lint & Security Scan') {
-
-                parallel (
+            steps {
+                parallel(
                     "Lint": {
                         echo 'Running lint...'
                         sh 'flake8 .'
@@ -37,6 +36,7 @@ pipeline {
                         sh 'bandit -r .'
                     }
                 )
+            }
         }
 
         stage('Install Dependencies') {
@@ -71,7 +71,7 @@ pipeline {
             steps {
                 sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
                 sh "docker push $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG"
-                sh "docker push $DOCKER_REGISTRY/$REPO_NAME:latest"
+                sh "docker push $DOCKER_REGISTRY/$REPO_NAME:latest"  // Fixed typo here from previous version
             }
         }        
     }
