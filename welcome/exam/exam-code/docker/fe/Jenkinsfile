@@ -54,9 +54,7 @@ pipeline {
                     script{
                     def IMAGE_NAME = "$DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG"
                     echo "Building Docker image ${IMAGE_NAME}..."
-                    docker.build(IMAGE_NAME, "--build-arg PYTHON_VERSION='3.10' .")
-                    // sh "docker build -t $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG ."
-                    // sh "docker tag $DOCKER_REGISTRY/$REPO_NAME:$IMAGE_TAG $DOCKER_REGISTRY/$REPO_NAME:latest"
+                    docker.build(IMAGE_NAME, "--build-arg PYTHON_VERSION='3.10' .")                
                     }
                 }
             }
@@ -83,7 +81,7 @@ pipeline {
                 dir("${WORKSPACE}/welcome/exam/exam-code/docker") {
                     sh 'docker-compose up -d'
                     sleep 10
-                    sh 'curl -f http://localhost:5002 || exit 1'
+                    sh 'curl -f http://localhost:5003 || exit 1'
                     sh 'docker-compose down'
                 }
             }
