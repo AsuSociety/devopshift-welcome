@@ -22,16 +22,16 @@ pipeline {
             steps {
                 sh 'pip install --upgrade pip'
                 sh 'pip install flake8 bandit'
-                parallel{
-                    'Lint': {
+                parallel (
+                    "Lint": {
                         echo 'Running lint...'
                         sh 'flake8 .'
                     },
-                    'Security Scan': {
+                    "Security Scan": {
                         echo 'Running security scan...'
                         sh 'bandit -r .'
                     }
-                }
+                )
             }
         }
 
